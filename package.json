@@ -1,0 +1,14 @@
+{
+    "name": "natours",
+    "version": "1.0.0",
+    "description": "Learning express&mongodb",
+    "main": "app.js",
+    "scripts": {
+        "start": "nodemon app.js"
+    },
+    "author": "SML",
+    "license": "ISC",
+    "dependencies": {
+        "express": "^4.17.2"
+    }
+}
