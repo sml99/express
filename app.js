@@ -4,14 +4,9 @@ const app = express();
 //MIDDLEWARE
 app.use(express.json());
 
-// app.get('/', (req, res) => {
-//     // res.status(200).send('Hello MotherFather!');
-//     res.status(200).json({ message: 'Hello MF', app: 'Natours' });
-// });
-
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`));
 
-app.get('/api/v1/tours', (req, res) => {
+const getAllTours = (req, res) => {
     res.status(200).json({
         status: 'success',
         results: tours.length,
@@ -19,9 +14,9 @@ app.get('/api/v1/tours', (req, res) => {
             tours,
         },
     });
-});
+};
 
-app.get('/api/v1/tours/:id', (req, res) => {
+const getTour = (req, res) => {
     const tour = tours.find((tour) => tour.id == req.params.id);
     if (tour)
         return res.status(200).json({
@@ -35,9 +30,9 @@ app.get('/api/v1/tours/:id', (req, res) => {
         status: 'fail',
         message: 'Invalid ID',
     });
-});
+};
 
-app.post('/api/v1/tours', (req, res) => {
+const createTour = (req, res) => {
     const id = tours[tours.length - 1].id + 1;
     const tour = Object.assign({ id }, req.body);
     tours.push(tour);
@@ -52,7 +47,40 @@ app.post('/api/v1/tours', (req, res) => {
             },
         });
     });
-});
+};
+
+const updateTour = (req, res) => {
+    const tour = tours.find((tour) => tour.id == req.params.id);
+    if (tour)
+        return res.status(200).json({
+            status: 'success',
+            data: {
+                tour,
+            },
+        });
+
+    res.status(404).json({
+        status: 'fail',
+        message: 'Invalid ID',
+    });
+};
+
+const deleteTour = (req, res) => {
+    const tour = tours.find((tour) => tour.id == req.params.id);
+    if (tour)
+        return res.status(204).json({
+            status: 'success',
+            data: {},
+        });
+
+    res.status(404).json({
+        status: 'fail',
+        message: 'Invalid ID',
+    });
+};
+
+app.route('/api/v1/tours').get(getAllTours).post(createTour);
+app.route('/api/v1/tours/:id').get(getTour).patch(updateTour).delete(deleteTour);
 
 const port = 3000;
 app.listen(port, () => {
