@@ -4,11 +4,12 @@
     "description": "Learning express&mongodb",
     "main": "app.js",
     "scripts": {
-        "start": "nodemon app.js"
+        "start": "nodemon server.js"
     },
     "author": "SML",
     "license": "ISC",
     "dependencies": {
-        "express": "^4.17.2"
+        "express": "^4.17.2",
+        "morgan": "^1.10.0"
     }
 }
