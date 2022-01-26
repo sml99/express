@@ -3,3 +3,5 @@ node_modules
 # Ignore media folder
 public
 dev-data/img
+# Ignore configFile
+config.env
